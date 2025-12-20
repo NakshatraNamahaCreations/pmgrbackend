@@ -8,17 +8,31 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const admin = await Admin.findOne({ email });
-  if (!admin) return res.status(401).json({ message: "Invalid credentials" });
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const admin = await Admin.findOne({ email: normalizedEmail });
+  if (!admin) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
 
   const match = await bcrypt.compare(password, admin.password);
-  if (!match) return res.status(401).json({ message: "Invalid credentials" });
+  if (!match) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
 
-  const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
+  const token = jwt.sign(
+    { id: admin._id },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
+
+  res.json({
+    token,
+    admin: {
+      id: admin._id,
+      email: admin.email,
+    },
   });
-
-  res.json({ token });
 });
 
 
