@@ -21,4 +21,23 @@ router.post("/login", async (req, res) => {
   res.json({ token });
 });
 
+
+router.post("/create-admin", async (req, res) => {
+  const bcrypt = await import("bcryptjs");
+  const Admin = (await import("../models/Admin.js")).default;
+
+  const hashedPassword = await bcrypt.hash("12345678", 10);
+
+  const admin = await Admin.create({
+    email: "admin@example.com",
+    password: hashedPassword,
+  });
+
+  res.json({
+    message: "Admin created",
+    admin,
+  });
+});
+
+
 export default router;
