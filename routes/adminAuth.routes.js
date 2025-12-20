@@ -29,7 +29,7 @@ router.post("/create-admin", async (req, res) => {
   const hashedPassword = await bcrypt.hash("12345678", 10);
 
   const admin = await Admin.create({
-    email: "admin@123.com",
+    email: "admin@pmgr.com",
     password: hashedPassword,
   });
 
