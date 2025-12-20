@@ -14,7 +14,7 @@ export const getAllBlogs = async (req, res) => {
     const blogs = await Blog.find(filter)
       .sort({ createdAt: -1 })
       .select(
-        "city title metaTitle metaDescription bannerImage extraImage services redirectLink createdAt"
+        "city title description metaTitle metaDescription bannerImage extraImage faqs redirectLink createdAt"
       );
 
     res.json({ success: true, blogs });
