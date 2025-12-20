@@ -81,6 +81,16 @@ router.get("/", async (req, res) => {
       message: err.message,
     });
   }
+
+  const cleanedBlogs = blogs.map(blog => ({
+  ...blog,
+  description: blog.description.replace(/<[^>]*>/g, "").trim(),
+}));
+
+res.json({
+  success: true,
+  blogs: cleanedBlogs,
+});
 });
 
 /**
