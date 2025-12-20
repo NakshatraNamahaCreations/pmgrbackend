@@ -54,26 +54,26 @@ router.post("/login", async (req, res) => {
 // });
 
 
-router.post("/reset-admin-password", async (req, res) => {
-  const bcrypt = await import("bcryptjs");
+// router.post("/reset-admin-password", async (req, res) => {
+//   const bcrypt = await import("bcryptjs");
 
-  const hashedPassword = await bcrypt.hash("12345678", 10);
+//   const hashedPassword = await bcrypt.hash("12345678", 10);
 
-  const admin = await Admin.findOneAndUpdate(
-    { email: "admin@pmgrco.com" },
-    { password: hashedPassword },
-    { new: true }
-  );
+//   const admin = await Admin.findOneAndUpdate(
+//     { email: "admin@pmgrco.com" },
+//     { password: hashedPassword },
+//     { new: true }
+//   );
 
-  if (!admin) {
-    return res.status(404).json({ message: "Admin not found" });
-  }
+//   if (!admin) {
+//     return res.status(404).json({ message: "Admin not found" });
+//   }
 
-  res.json({
-    message: "Admin password reset to 12345678",
-    email: admin.email,
-  });
-});
+//   res.json({
+//     message: "Admin password reset to 12345678",
+//     email: admin.email,
+//   });
+// });
 
 
 export default router;
