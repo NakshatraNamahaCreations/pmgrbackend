@@ -68,7 +68,7 @@ router.get("/", async (req, res) => {
     const blogs = await Blog.find(filter)
       .sort({ createdAt: -1 })
       .select(
-        "city title description metaTitle metaDescription bannerImage extraImage services redirectLink createdAt"
+        "city title description metaTitle metaDescription bannerImage extraImage services faqs redirectLink createdAt"
       );
 
     res.json({
