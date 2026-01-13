@@ -16,7 +16,7 @@ const app = express();
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow server-to-server / curl / postman
+      // Allow Postman / curl / server-side
       if (!origin) return callback(null, true);
 
       const allowedOrigins = [
@@ -35,14 +35,14 @@ app.use(
         return callback(null, true);
       }
 
-      return callback(
-        new Error(`CORS policy blocked origin: ${origin}`),
-        false
-      );
+      return callback(null, false);
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
 
 
 app.use(express.json());
