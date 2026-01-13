@@ -16,26 +16,34 @@ const app = express();
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow server-to-server / curl / postman
       if (!origin) return callback(null, true);
 
-      if (origin.startsWith("http://localhost")) {
-        return callback(null, true);
-      }
+      const allowedOrigins = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://pmgrandco.com",
+        "https://www.pmgrandco.com",
+      ];
 
+      // Allow Netlify preview URLs
       if (origin.endsWith(".netlify.app")) {
         return callback(null, true);
       }
 
-      const allowedDomains = ["https://www.yourdomain.com"];
-      if (allowedDomains.includes(origin)) {
+      if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
-      return callback(new Error("CORS policy: Origin not allowed"), false);
+      return callback(
+        new Error(`CORS policy blocked origin: ${origin}`),
+        false
+      );
     },
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 app.use(cookieParser()); // 🔥 THIS WAS MISSING
